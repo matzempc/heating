@@ -7,6 +7,10 @@
   <body>
 <div align="center">
 <?php
+/*echo "\"temp_single.php?type=" . $_GET["type"]. "&daystart=" . 
+	$_GET["daystart"] . "&daystop=" . $_GET["daystop"] . "&monthstart=" . 
+	$_GET["monthstart"] . "&monthstop=" . $_GET["monthstop"] . "&yearstart=" . 
+	$_GET["yearstart"] ."&yearstop=" . $_GET["yearstop"] . "\"<br><hr><br>";*/
 echo "<img src=\"temp_single.php?type=" . $_GET["type"]. "&daystart=" . 
 	$_GET["daystart"] . "&daystop=" . $_GET["daystop"] . "&monthstart=" . 
 	$_GET["monthstart"] . "&monthstop=" . $_GET["monthstop"] . "&yearstart=" . 
