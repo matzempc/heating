@@ -206,19 +206,21 @@ if ($connection = mysql_connect('localhost','heating','heating')){
       				do {
 						if (($i % $factor) == 0){
 							$boileris[] = $myrow["temp_boiler_is"];
-	 						$boilertarget[] = $myrow["temp_boiler_target"];
+	 						if ($myrow["temp_boiler_target"] < 95){
+								$boilertarget[] = $myrow["temp_boiler_target"];
+							} else {
+								$boilertarget[] = "-";
+							}
 							$tempout_mid[] = $myrow["temp_out_red"];
 							if ($myrow["temp_out"] < 65) {
 								$tempout[] = $myrow["temp_out"];
-								$outtemp = $myrow["temp_out"];
 							} else {
-								$tempout[] = $outtemp;
+								$tempout[] = "-";
 							}
 							if ($myrow["temp_exhaust"] <90){
 								$tempexhaust[] = $myrow["temp_exhaust"];
-								$exhausttemp = $myrow["temp_exhaust"];
 							} else {
-								$tempexhaust[] = $exhausttemp;
+								$tempexhaust[] = "-";
 							}
 							$dates[] = $myrow["dateformat"]
             						. " " . $myrow["time"];
@@ -414,6 +416,34 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 								$myrow["arbeitszimmer_rl"] : "-"; 
 							$dates[] = $myrow["timestamp"];
 						}
+						$date = (string) $myrow["timestamp"];
+						$date = strtok($date, " ");
+						$time = (string) strtok(" ");
+						$hour = (int) strtok($time, ":");
+						$minute = (int) strtok(":");
+						$second = (int) strtok(":");
+						if ($begintemprooms == NULL){
+							$begintemprooms = convertTimestamp($day_start,
+								$month_start, $year_start,
+								$hour, $minute, 0);
+							//$second = 59;
+						} else {
+							$begintemprooms = $endtemprooms;
+						}
+						$endtemprooms   = convertTimestamp($day_stop, 
+								$month_stop, $year_stop,
+								$hour, $minute, $second);
+						$sqltemprooms = "SELECT arbeitszimmer "
+						    ." FROM temperatures_rooms WHERE timestamp >= $begintemprooms AND "
+						    ."timestamp <= $endtemprooms "
+						    ."ORDER by timestamp ASC";
+						//echo $sqltemprooms . "<br>\n";
+						$resulttemprooms = mysql_query($sqltemprooms);
+						if ($myrow2=mysql_fetch_array($resulttemprooms)) {
+							$temp_az[] = $myrow2["arbeitszimmer"];
+						} else {
+							$temp_az[] = "-";
+						}
 						$i++;
 					}while ($myrow=mysql_fetch_array($result));
    				}
@@ -426,9 +456,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				$p2 = new LinePlot($az_rl);
    				$p2->SetColor('red'); 
    				$p2->SetLegend("Arbeitszimmer_RL");
+				$p3 = new LinePlot($temp_az);
+   				$p3->SetColor('blue'); 
+   				$p3->SetLegend("Arbeitszimmer Temperatur");
 	
    				$graph->Add($p1);
 				$graph->Add($p2);
+				$graph->Add($p3);
    				$graph->Stroke();
 				break;
 				break;
