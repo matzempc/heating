@@ -407,15 +407,6 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				$max_temp = 90;	
   				if ($myrow=mysql_fetch_array($result)) {
 					do {
-						if (($i % $factor) == 0){
-							$az_vl[] = $myrow["arbeitszimmer_vl"] > $min_temp 
-								&& $myrow["arbeitszimmer_vl"] < $max_temp ?
-								$myrow["arbeitszimmer_vl"] : "-"; 
-							$az_rl[] = $myrow["arbeitszimmer_rl"] > $min_temp 
-								&& $myrow["arbeitszimmer_rl"] < $max_temp ?
-								$myrow["arbeitszimmer_rl"] : "-"; 
-							$dates[] = $myrow["timestamp"];
-						}
 						$date = (string) $myrow["timestamp"];
 						$date = strtok($date, " ");
 						$time = (string) strtok(" ");
@@ -433,16 +424,25 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 						$endtemprooms   = convertTimestamp($day_stop, 
 								$month_stop, $year_stop,
 								$hour, $minute, $second);
-						$sqltemprooms = "SELECT arbeitszimmer "
-						    ." FROM temperatures_rooms WHERE timestamp >= $begintemprooms AND "
-						    ."timestamp <= $endtemprooms "
-						    ."ORDER by timestamp ASC";
-						//echo $sqltemprooms . "<br>\n";
-						$resulttemprooms = mysql_query($sqltemprooms);
-						if ($myrow2=mysql_fetch_array($resulttemprooms)) {
-							$temp_az[] = $myrow2["arbeitszimmer"];
-						} else {
-							$temp_az[] = "-";
+						if (($i % $factor) == 0){
+							$az_vl[] = $myrow["arbeitszimmer_vl"] > $min_temp 
+								&& $myrow["arbeitszimmer_vl"] < $max_temp ?
+								$myrow["arbeitszimmer_vl"] : "-"; 
+							$az_rl[] = $myrow["arbeitszimmer_rl"] > $min_temp 
+								&& $myrow["arbeitszimmer_rl"] < $max_temp ?
+								$myrow["arbeitszimmer_rl"] : "-"; 
+							$dates[] = $myrow["timestamp"];
+							$sqltemprooms = "SELECT arbeitszimmer "
+						    	." FROM temperatures_rooms WHERE timestamp >= $begintemprooms AND "
+						    	."timestamp <= $endtemprooms "
+						    	."ORDER by timestamp ASC";
+							//echo $sqltemprooms . "<br>\n";
+							$resulttemprooms = mysql_query($sqltemprooms);
+							if ($myrow2=mysql_fetch_array($resulttemprooms)) {
+								$temp_az[] = $myrow2["arbeitszimmer"];
+							} else {
+								$temp_az[] = "-";
+							}
 						}
 						$i++;
 					}while ($myrow=mysql_fetch_array($result));
