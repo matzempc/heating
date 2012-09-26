@@ -192,20 +192,6 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 						$i++;
       				}while ($myrow=mysql_fetch_array($result));
    				}	         
-			   /*TODO to be removed	
-			    $sql = "SELECT *, DATE_FORMAT( `date`, '%d.%m.%Y') AS dateformat"
-				       ." FROM deltasole WHERE timestamp >= $begin AND timestamp <= $end "
-				       ."ORDER by timestamp ASC";
-				$result = mysql_query($sql);
-				if ($myrow=mysql_fetch_array($result)) {
-				    do {
-				        if (($i % $factor) == 0){
-				            $rl_M1[] = $myrow["temp_rl"];
-							$buffer_top[] = $myrow["temp_buffer_top"];
-				        }
-				        $i++;
-				    }while ($myrow=mysql_fetch_array($result));
-				}*/
    				$graph->xaxis->SetTickLabels($dates);
    				$p1 = new LinePlot($boileris);
    				$p1->SetColor('blue'); 
