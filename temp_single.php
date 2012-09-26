@@ -316,7 +316,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
    				$graph->Stroke();
 				break;
 			case 7:
-				$buero_offset = 0.7;
+				$buero_offset = 0 /*0.7*/;
 			    $min_temp = 10;
 				$max_temp = 40;	
   				if ($myrow=mysql_fetch_array($result)) {
