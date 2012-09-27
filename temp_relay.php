@@ -247,8 +247,16 @@ if ($connection = mysql_connect('localhost','heating','heating')){
   				if ($myrow=mysql_fetch_array($result)) {
       				do {
 						if (($i % $factor) == 0){
-							$boileris[] = $myrow["temp_boiler_is"];
-	 						$boilertarget[] = $myrow["temp_boiler_target"];
+							if ($myrow["temp_boiler_is"] < 95){
+								$boileris[] = $myrow["temp_boiler_is"];
+							} else {
+								$boileris[] = "-";
+							}
+							if ($myrow["temp_boiler_target"] < 95){
+								$boilertarget[] = $myrow["temp_boiler_target"];
+							} else {
+								$boilertarget[] = "-";
+							}
 							$boilerstate[] = $myrow["boiler_state"];
 							$pump_m1[] = $myrow["pump_M1"];
 							$pump_m2[] = $myrow["pump_M2"];
@@ -293,8 +301,16 @@ if ($connection = mysql_connect('localhost','heating','heating')){
   				if ($myrow=mysql_fetch_array($result)) {
       				do {
 						if (($i % $factor) == 0){
-	 						$vl[] = $myrow["temp_vl_is_M2"];
-							$rl[] = $myrow["temp_rl_is_M2"];
+	 						if ($myrow["temp_vl_is_M2"] < 85){
+		 						$vl[] = $myrow["temp_vl_is_M2"];
+							} else {
+								$vl[] = "-";
+							}
+							if ($myrow["temp_rl_is_M2"] < 85){
+		 						$rl[] = $myrow["temp_rl_is_M2"];
+							} else {
+								$rl[] = "-";
+							}	
 							$pump_m1[] = $myrow["pump_M1"];
 							$pump_m2[] = $myrow["pump_M2"];
 							$dates[] = $myrow["dateformat"]
@@ -357,8 +373,16 @@ if ($connection = mysql_connect('localhost','heating','heating')){
   				if ($myrow=mysql_fetch_array($result)) {
       				do {
 						if (($i % $factor) == 0){
-	 						$vl[] = $myrow["temp_vl_is_M2"];
-							$rl[] = $myrow["temp_rl_is_M2"];
+							if ($myrow["temp_vl_is_M2"] < 85){
+		 						$vl[] = $myrow["temp_vl_is_M2"];
+							} else {
+								$vl[] = "-";
+							}
+							if ($myrow["temp_rl_is_M2"] < 85){
+		 						$rl[] = $myrow["temp_rl_is_M2"];
+							} else {
+								$rl[] = "-";
+							}	
 							$pump_m1[] = $myrow["pump_M1"];
 							$pump_m2[] = $myrow["pump_M2"];
 							$dates[] = $myrow["dateformat"]
