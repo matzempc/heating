@@ -460,7 +460,10 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 							//echo $sqltemprooms . "<br>\n";
 							$resulttemprooms = mysql_query($sqltemprooms);
 							if ($myrow2=mysql_fetch_array($resulttemprooms)) {
-								$temp_az[] = $myrow2["arbeitszimmer"];
+								$temp_az[] = 
+									$myrow2["arbeitszimmer"] > $min_temp 
+									&& $myrow2["arbeitszimmer"] < $max_temp ?
+									$myrow2["arbeitszimmer"] : "-"; 
 							} else {
 								$temp_az[] = "-";
 							}
