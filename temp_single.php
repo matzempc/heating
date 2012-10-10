@@ -215,7 +215,6 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 							} else {
 								$boilertarget[] = "-";
 							}
-							$tempout_mid[] = $myrow["temp_out_red"];
 							if ($myrow["temp_out_red"] < 90){
 								$tempout_mid = $myrow["temp_out_red"];
 							} else {
