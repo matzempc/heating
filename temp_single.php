@@ -216,12 +216,17 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 								$boilertarget[] = "-";
 							}
 							$tempout_mid[] = $myrow["temp_out_red"];
+							if ($myrow["temp_out_red"] < 90){
+								$tempout_mid = $myrow["temp_out_red"];
+							} else {
+								$tempout_mid = "-";
+							}
 							if ($myrow["temp_out"] < 65) {
 								$tempout[] = $myrow["temp_out"];
 							} else {
 								$tempout[] = "-";
 							}
-							if ($myrow["temp_exhaust"] <90){
+							if ($myrow["temp_exhaust"] < 90){
 								$tempexhaust[] = $myrow["temp_exhaust"];
 							} else {
 								$tempexhaust[] = "-";
@@ -252,6 +257,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
    				$graph->Add($p2);
 				$graph->Add($p3);
 				$graph->Add($p4);
+				$graph->Add($p5);
    				$graph->Stroke();
 				break;
 			case 5:
