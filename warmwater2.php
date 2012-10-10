@@ -125,7 +125,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				WHERE `timestamp` >= $begin AND `timestamp` <= $end 
 				AND `pump_ww` = 1
 				GROUP BY `boiler_hours1`
-				ORDER BY `boiler_hours1` ASC";
+				ORDER BY `date`, `time` ASC";
 	 	//echo $sql . "<br>";	
 		echo "<table border=\"1\">\n";
   		echo "<tbody>\n";
@@ -143,9 +143,9 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 			$date = $myrow["date"];
 			while($myrow = mysql_fetch_array($result))
 			{
-			 	/*	
+			 		
 				echo $myrow["index"] . " " . $myrow["boiler_hours1"] . " " . 
-					$myrow["time"] . "<br>";*/
+					$myrow["time"] . "<br>";
 				if ($start == 0) $start = $boilerhours;
 				if ((++$step + 4) < $myrow["index"]){
 					if ($i++ >= 5){ 
