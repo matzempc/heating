@@ -143,9 +143,9 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 			$date = $myrow["date"];
 			while($myrow = mysql_fetch_array($result))
 			{
-			 		
+			 	/*	
 				echo $myrow["index"] . " " . $myrow["boiler_hours1"] . " " . 
-					$myrow["time"] . "<br>";
+					$myrow["time"] . "<br>";*/
 				if ($start == 0) $start = $boilerhours;
 				if ((++$step + 4) < $myrow["index"]){
 					if ($i++ >= 5){ 
