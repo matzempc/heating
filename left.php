@@ -54,7 +54,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -98,7 +98,7 @@
     echo "</select>.";
     echo "<select name=\"yearstop\">";
 
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -138,7 +138,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -190,7 +190,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -234,7 +234,7 @@
     echo "</select>.";
     echo "<select name=\"yearstop\">";
 
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -280,7 +280,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -312,7 +312,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -331,7 +331,7 @@
     echo "<hr><p><b>Energie Jahr</b></p>";
     echo "<form action = \"energy.php\" method=\"get\" target=\"main\">";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -399,7 +399,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -443,7 +443,7 @@
     echo "</select>.";
     echo "<select name=\"yearstop\">";
 
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -474,7 +474,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -508,7 +508,7 @@
     }
     echo "</select>.";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
@@ -528,7 +528,7 @@
     echo "<hr><p><b>Energie Jahr</b></p>";
     echo "<form action = \"energy_photo.php\" method=\"get\" target=\"main\">";
     echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=2012; $i++)
+    for($i=2009; $i<=$year; $i++)
     {
         if($i == $today['year'])
         {
