@@ -4,7 +4,7 @@
 	<title>Heizung</title>
 	<link rel="stylesheet" href="heating.css">
 	</head>
-	<body bgcolor="#d6e5ca" marginheight="25" marginwidth="20" topmargin="25" leftmargin="0">
+	<body marginheight="25" marginwidth="20" topmargin="25" leftmargin="0">
 <?PHP
 	echo "<div align=\"center\"><h1>Heizung Mossner</h1></div>";
 ?>
