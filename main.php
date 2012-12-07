@@ -130,12 +130,12 @@ if ($connection = mysql_connect('localhost','heating','heating')){
         $end   = convertTimestamp($day, $month, $year, 23, 59, 59);
 		$lastfueltime = convertTimestamp(7, 12, 2012, 8, 0, 0);
 
-		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 		$result_day = mysql_query($sql_day, $connection);
 		$line_day = mysql_fetch_array($result_day);
 		$day_max = $line_day["energy"];
 			
-		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp ASC LIMIT 1";
+		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 		$result_day = mysql_query($sql_day, $connection);
 		$line_day = mysql_fetch_array($result_day);
 		$day_min = $line_day["energy"];
@@ -144,12 +144,12 @@ if ($connection = mysql_connect('localhost','heating','heating')){
        	$end   = convertTimestamp(getLastDayOfMonth($month, $year), 
 				$month, $year, 23, 59, 59);
 		
-		$sql_month = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+		$sql_month = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 		$result_month = mysql_query($sql_month, $connection);
 		$line_month = mysql_fetch_array($result_month);
 		$month_max = $line_month["energy"];
 			
-		$sql_month = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp ASC LIMIT 1";
+		$sql_month = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 		$result_month = mysql_query($sql_month, $connection);
 		$line_month = mysql_fetch_array($result_month);
 		$month_min = $line_month["energy"];
@@ -158,12 +158,12 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$begin = convertTimestamp(1, 1, $year, 0, 0, 0);
        	$end   = convertTimestamp(31, 12, $year, 23, 59, 59);
 
-		$sql_year = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+		$sql_year = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 		$result_year = mysql_query($sql_year, $connection);
 		$line_year = mysql_fetch_array($result_year);
 		$year_max = $line_year["energy"];
 			
-		$sql_year = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp ASC LIMIT 1";
+		$sql_year = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 		$result_year = mysql_query($sql_year, $connection);
 		$line_year = mysql_fetch_array($result_year);
 		$year_min = $line_year["energy"];

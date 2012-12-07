@@ -49,7 +49,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$month_stop = $_GET["monthstop"];
 		$year_stop =  $_GET["yearstop"];
 
-    	$sql = "SELECT energy FROM deltasole_wmz ORDER by energy ASC LIMIT 1";
+    	$sql = "SELECT energy FROM deltasole_wmz WHERE error=0 ORDER by energy ASC LIMIT 1";
 		$result = mysql_query($sql);
 		if ($myrow=mysql_fetch_array($result)) {
 			$whole_energy = $myrow["energy"];
@@ -84,14 +84,14 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 
  				$sql = "SELECT energy"
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND "
-				   ." timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+				   ." timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_max = $myrow["energy"];
 				}
 				$sql = "SELECT energy"
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp"
-				   ." <= $end ORDER by timestamp ASC LIMIT 1";
+				   ." <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_min = $myrow["energy"];
@@ -141,14 +141,14 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				$end   = convertTimestamp(31, $month_stop, $year_stop, 23, 59, 59);
 				$sql = "SELECT energy"
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND "
-				   ." timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+				   ." timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_max = $myrow["energy"];
 				}
 				$sql = "SELECT energy"
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp"
-				   ." <= $end ORDER by timestamp ASC LIMIT 1";
+				   ." <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_min = $myrow["energy"];
@@ -200,14 +200,14 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				
 				$sql = "SELECT energy"
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND "
-				   ." timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+				   ." timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_max = $myrow["energy"];
 				}
 				$sql = "SELECT energy" 
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp"
-				   ." <= $end ORDER by timestamp ASC LIMIT 1";
+				   ." <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_min = $myrow["energy"];
@@ -288,14 +288,14 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				$end   = convertTimestamp(31, 7, $year_start+1, 23, 59, 59);
 				$sql = "SELECT energy"
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND "
-				   ." timestamp <= $end ORDER by timestamp DESC LIMIT 1";
+				   ." timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_max = $myrow["energy"];
 				}
 				$sql = "SELECT energy" 
 				   ." FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp"
-				   ." <= $end ORDER by timestamp ASC LIMIT 1";
+				   ." <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
 				$result = mysql_query($sql);
 				if ($myrow=mysql_fetch_array($result)) {
 					$energy_min = $myrow["energy"];
