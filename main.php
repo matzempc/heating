@@ -424,9 +424,9 @@ if ($connection = mysql_connect('localhost','heating','heating')){
        	echo "<td>Schlafzimmer_unten: " . $line["schlafzimmer_unten"] . "</td>\n";
 		echo "<td>Maja Zimmer: " . $line["maja_zimmer"] . "</td>\n";
 		echo "<td>Wohnzimmer_unten: " . $line["wohnzimmer_unten"] . "</td>\n";
-		echo "<td>Eingang unten: " . $line["eingang_unten"] . "</td>\n";
 		echo "<td>Badezimmer oben: " . $line["badezimmer_oben"] . "</td>\n";
-      	echo "</tr></tbody></table>\n";	
+      	echo "<td>Arbeitszimmer2: " . $line["arbeitszimmer2"] . "</td>\n";
+		echo "</tr></tbody></table>\n";	
 	}
     }
 ?>
