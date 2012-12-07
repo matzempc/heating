@@ -369,10 +369,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 							$i6[] = $myrow["maja_zimmer"] >  $min_temp
 								&& $myrow["maja_zimmer"] < $max_temp ?
 								$myrow["maja_zimmer"] : "-"; 
-							$i7[] = $myrow["eingang_unten"] >  $min_temp
-								&& $myrow["eingang_unten"] < $max_temp ?
-								$myrow["eingang_unten"] : "-"; 
-							$i8[] = $myrow["badezimmer_oben"] >  $min_temp
+							$i7[] = $myrow["badezimmer_oben"] >  $min_temp
 								&& $myrow["badezimmer_oben"] < $max_temp ?
 								$myrow["badezimmer_oben"] : "-";
 							$arbeitszimmer[] = $myrow["arbeitszimmer"] > $min_temp
@@ -396,7 +393,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
    				$p3->SetColor('blue'); 
    				$p3->SetLegend("Arbeitszimmer");
 				$p4 = new LinePlot($max_zimmer);
-   				$p4->SetColor('yellow'); 
+   				$p4->SetColor('brown'); 
    				$p4->SetLegend("Max Zimmer");
 				$p5 = new LinePlot($badezimmer_unten);
    				$p5->SetColor('black'); 
@@ -408,14 +405,11 @@ if ($connection = mysql_connect('localhost','heating','heating')){
    				$p7->SetColor('orange'); 
    				$p7->SetLegend("Maja Zimmer");
 				$p8 = new LinePlot($i7);
-   				$p8->SetColor('brown'); 
-   				$p8->SetLegend("Eingang unten");
-				$p9 = new LinePlot($i8);
-   				$p9->SetColor('darkmagenta'); 
-   				$p9->SetLegend("Badezimmer oben");
-				$p10 = new LinePlot($wz_unten);
-   				$p10->SetColor('slategray3'); 
-   				$p10->SetLegend("Wohnzimmer unten");
+   				$p8->SetColor('darkmagenta'); 
+   				$p8->SetLegend("Badezimmer oben");
+				$p9 = new LinePlot($wz_unten);
+   				$p9->SetColor('slategray3'); 
+   				$p9->SetLegend("Wohnzimmer unten");
 	
    				$graph->Add($p1);
 				$graph->Add($p2);
@@ -426,7 +420,6 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				$graph->Add($p7);
 				$graph->Add($p8);
 				$graph->Add($p9);
-				$graph->Add($p10);
    				$graph->Stroke();
 			case 8:
 			    $min_temp = 5;

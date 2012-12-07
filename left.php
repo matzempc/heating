@@ -459,7 +459,7 @@
     echo "</form>";
 
     echo "<hr><p><b>Warmwasser Oel Monat</b></p>";
-    echo "<form action = \"warmwater2.php\" method=\"get\" target=\"main\">";
+    echo "<form action = \"warmwater.php\" method=\"get\" target=\"main\">";
     echo "<select name=\"monthstart\">";
     for($i=1; $i<=12; $i++)
     {

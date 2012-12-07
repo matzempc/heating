@@ -314,8 +314,8 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 								$myrow["schlafzimmer_unten_feuchte"] : "-";
 							$i6[] = $myrow["maja_zimmer_feuchte"] != 0 ?
 								$myrow["maja_zimmer_feuchte"] : "-"; 
-							$i7[] = $myrow["eingang_unten_feuchte"] != 0 ?
-								$myrow["eingang_unten_feuchte"] : "-"; 
+							$i7[] = $myrow["arbeitszimmer_feuchte"] != 0 ?
+								$myrow["arbeitszimmer_feuchte"] : "-"; 
 							$i8[] = $myrow["badezimmer_oben_feuchte"] != 0 ?
 								$myrow["badezimmer_oben_feuchte"] : "-";
 							$buero[] = $myrow["buero_feuchte"] != 0 ?
@@ -348,7 +348,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
    				$p6->SetLegend("Maja Zimmer");
 				$p7 = new LinePlot($i7);
    				$p7->SetColor('brown'); 
-   				$p7->SetLegend("Eingang unten");
+   				$p7->SetLegend("Arbeitszimmer");
 				$p8 = new LinePlot($i8);
    				$p8->SetColor('darkmagenta'); 
    				$p8->SetLegend("Badezimmer oben");

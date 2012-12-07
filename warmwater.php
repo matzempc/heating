@@ -7,7 +7,18 @@
   <body>
 <div align="center">
 <?php
-   
+
+function getEnergyPerHour($month, $year)
+{
+	    return $year < 2010 ? 24 : $year > 2010 ? 20 : $month < 8 ? 24 : 20;
+}
+
+
+function getLastDayOfMonth($month, $year)
+{
+	    return idate('d', mktime(0, 0, 0, ($month + 1), 0, $year));
+}
+
 function convertTimestamp($day, $month, $year, $hour, $minute, $second)
 {
         $timestamp = $year;
@@ -57,7 +68,6 @@ function convertmins($dec_time){
     $string = sprintf("%s:%s (mins)",$minutesstring,$secondsstring);
     return (string)$string;
 }
-
 if ($connection = mysql_connect('localhost','heating','heating')){
 	if(mysql_select_db('heating',$connection)){
         $day_start = $_GET["daystart"];
@@ -67,13 +77,8 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$month_stop = $_GET["monthstop"];
 		$year_stop =  $_GET["yearstop"];
 
-        /*TODO currently only months supported*/
-		if ($month_stop == 0) $month_stop = $month_start;
+        if ($month_stop == 0) $month_stop = $month_start;
 		
-		if ($day_start == 0 || $day_stop == 0){
-            $day_start = 1;
-            $day_stop = 31;
-        }
         if ($month_start == 0 || $month_stop == 0){
             $month_start = 1;
             $month_stop = 12;
@@ -83,32 +88,29 @@ if ($connection = mysql_connect('localhost','heating','heating')){
             $year_start = $today['year'];
             $year_stop = $today['year'];
         }
-		
-
+		if ($day_start == 0 || $day_stop == 0){
+            $day_start = 1;
+            $day_stop = getLastDayOfMonth($month_stop, $year_stop);
+        }
+ 
 		$begin = convertTimestamp($day_start, $month_start, $year_start, 
 				0, 0, 0);
        	$end   = convertTimestamp($day_stop, $month_stop, $year_stop, 
 				23, 59, 59);
 	
-		$sql = "SELECT `index` , `time` , `boiler_hours1` , `pump_ww`
+		$sql = "SELECT `index` , `date`, `time` , `boiler_hours1`
 				FROM `vitocontrol`
-				WHERE `timestamp` >= $begin AND `timestamp` <= $end AND
-			   	`pump_ww` = 1
-				GROUP BY `date`
-				ORDER BY `date` ASC LIMIT 1";
-		
-		//echo $sql . "<br>";
-		
+				WHERE `timestamp` >= $begin AND `timestamp` <= $end
+				AND `pump_ww` = 1
+				GROUP BY `boiler_hours1`
+				ORDER BY `boiler_hours1` ASC LIMIT 1";
+		//echo $sql . "<br>";	
 		$result = mysql_query($sql, $connection);
-		if ($result && $myrow = mysql_fetch_array($result)){
-			$pump_ww = $myrow["pump_ww"];
-		} else {
-				echo "<h1>No warmwater heated by oil in this time!</h1><br>";
-			   	exit(0);	
+		if (!$result || !mysql_fetch_array($result)){
+			echo "<h1>No warmwater heated by oil in this time!</h1><br>";
+		   	exit(0);	
 		}
-		
-		/*
-		   TODO insert graphics if wanted
+		/* TODO graphical enhancement
 		echo "<img src=\"boilerstarts_graph.php?daystart=" .
    			 $_GET["daystart"] . "&daystop=" . $_GET["daystop"] . 
 			 "&monthstart=" .
@@ -118,15 +120,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 			"\"<br><hr><br>";
 		*/
 
-		$sql = "SELECT `index` , `date`, `time` , `boiler_hours1` , `pump_ww`
+		$sql = "SELECT `index` , `date`, `time` , `boiler_hours1`
 				FROM `vitocontrol`
-				WHERE `timestamp` >= $begin AND `timestamp` <= $end AND
-			   	`pump_ww` = 1
-				GROUP BY `date`
-				ORDER BY `date` ASC ";
-		
-		//echo $sql . "<br>";
-		
+				WHERE `timestamp` >= $begin AND `timestamp` <= $end 
+				AND `pump_ww` = 1
+				GROUP BY `boiler_hours1`
+				ORDER BY `date`, `time` ASC";
+	 	//echo $sql . "<br>";	
 		echo "<table border=\"1\">\n";
   		echo "<tbody>\n";
     	echo "<tr>\n";
@@ -134,28 +134,62 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$result = mysql_query($sql, $connection);
 		$i = 0;
 		$j = 1;
-		while($myrow = mysql_fetch_array($result))
-		{
-		 	/*	
-			echo $myrow["index"] . " " . $myrow["boiler_hours1"] . " " . 
-				$myrow["time"] . $myrow["pump_ww"] . "<br>";*/
-			$date = $myrow["date"];
+		if ($myrow = mysql_fetch_array($result)){
+			$start = $myrow["boiler_hours1"];
+			$startdate = $myrow["date"];
 			$starttime = $myrow["time"];
-			if (!$step) $step = $myrow["index"];
-			if (++$step <= $myrow["index"]){
-				if ($i++ >= 5){ 
-					$i = 1;
+			$step = $myrow["index"];
+			$boilerhours = $myrow["boiler_hours1"];
+			$date = $myrow["date"];
+			while($myrow = mysql_fetch_array($result))
+			{
+			 	/*	
+				echo $myrow["index"] . " " . $myrow["boiler_hours1"] . " " . 
+					$myrow["time"] . "<br>";*/
+				if ($start == 0) $start = $boilerhours;
+				if ((++$step + 4) < $myrow["index"]){
+					if ($i++ >= 5){ 
+						$i = 1;
+						echo "</tr><tr>";
+					}
+			 		$duration = $boilerhours - $start;
+					echo "<td>";
+					//echo "$start -> $boilerhours ($duration)<br>";
+					$oil = round($duration * 
+						getEnergyPerHour($month_stop, $year_stop)) / 10;
+					$oil_total += $oil;
+					echo $j++ . ".Ladung ($starttime $date):<br>" . 
+						 convertmins($duration) . 
+						 "(" . $oil .  "l)" . "</td>\n";
+					$start = 0;
+					$startdate = $date;
+					$step = $myrow["index"] + 1;
+					$starttime = $myrow["time"];
+
+				}
+				$boilerhours = $myrow["boiler_hours1"];
+				$date = $myrow["date"];
+			}
+			if ($boilerhours != $start){
+				if ($i > 5){ 
 					echo "</tr><tr>";
 				}
+				$duration = $boilerhours - $start;
+				$oil = round($duration * 
+					getEnergyPerHour($month_stop, $year_stop)) / 10;
+				$oil_total += $oil;
 				echo "<td>";
-				echo $j++ . ".Start ($starttime):<br>" . 
-					 $date . "</td>\n";
-				$step = $myrow["index"] + 1;
+				//echo "$start -> $boilerhours ($duration)<br>";
+				echo $j . ".Ladung ($starttime $date):<br>" . 
+					convertmins($duration) . 
+						 "(" . $oil .  "l)" . "</td>\n";
 			}
 		}
 		echo "</tr>\n";
   		echo "</tbody>\n";
 		echo "</table>\n";
+		echo "<br><h2>Oel Total Monat: " . $oil_total . " Liter</h2><br>";
+  	
 	}
 }
 ?>

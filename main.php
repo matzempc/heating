@@ -10,8 +10,9 @@
 
 $oil_2009 = 2990; /*???*/ 
 $oil_2010 = 2433;
-$oil_2011 = 0;
-$oil_2012 = 0;
+$oil_2011 = 2500; /*circa da erst Anfang Dezember 2012 getankt worden ist*/
+$oil_2012 = 557; /*Rest von 2011 da insg. 3057l getankt wurden und die HeizSaison schon begonnen hat*/
+$oil_2012 += 0;
 $oil_2013 = 0;
 $oil_2014 = 0;
 $oil_2015 = 0;
@@ -137,7 +138,8 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 
 		$begin = convertTimestamp($day, $month, $year, 0, 0, 0);
         $end   = convertTimestamp($day, $month, $year, 23, 59, 59);
-		
+		$lastfueltime = convertTimestamp(7, 12, 2012, 8, 0, 0);
+
 		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
 		$result_day = mysql_query($sql_day, $connection);
 		$line_day = mysql_fetch_array($result_day);
@@ -304,6 +306,11 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$boiler_hours_average_year = $boiler_hours_year / 
 			$boiler_starts_year;
 
+		$sql_lastfuel = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp <= $lastfueltime ORDER by timestamp DESC LIMIT 1";
+		$result_lastfuel = mysql_query($sql_lastfuel, $connection);
+		$line_lastfuel = mysql_fetch_array($result_lastfuel);
+		$oil_lastfuel = $line_lastfuel["oil_consume"];
+
 		echo "<p>Heizung Mossner am: " . $line["dateformat"] . 
 			" um " . $line["time"] . "</p>";
 		echo "<table border=\"1\">\n";
@@ -325,8 +332,9 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		  	$line["temp_exhaust"] . "</td>\n";
 		echo "</tr>\n";
     	echo "<tr>\n";
-		$total_oil_last_fill = $line["oil_consume"] / 1000 - 4617;
-      	$oil_ges = $oil_ges + $total_oil_last_fill;
+		$total_oil_last_fill = $line["oil_consume"] / 1000 - ($oil_lastfuel / 1000);
+      	echo "lastfill: $total_oil_last_fill" . " " . $line["oil_consume"] . " " . $oil_lastfuel . " " . $sql_last_fuel;
+		$oil_ges = $oil_ges + $total_oil_last_fill;
 		echo "<td>Gesamt:<br>Brennerstarts:" . $line["boiler_starts"] .
 			" <br>Kesselbetriebsstunden: ". 
 			converthours($line["boiler_hours1"]) . 
