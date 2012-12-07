@@ -8,22 +8,12 @@
 <div align="center">
 <?php
 
-$oil_2009 = 2990; /*???*/ 
+/*
+$oil_2009 = 2990; ???
 $oil_2010 = 2433;
-$oil_2011 = 2500; /*circa da erst Anfang Dezember 2012 getankt worden ist*/
-$oil_2012 = 557; /*Rest von 2011 da insg. 3057l getankt wurden und die HeizSaison schon begonnen hat*/
-$oil_2012 += 0;
-$oil_2013 = 0;
-$oil_2014 = 0;
-$oil_2015 = 0;
-$oil_2016 = 0;
-$oil_2017 = 0;
-$oil_2018 = 0;
-$oil_2019 = 0;
-$oil_2020 = 0;
-$oil_ges  = $oil_2009 + $oil_2010 + $oil_2011 + $oil_2012 + $oil_2013 + 
-	$oil_2014 + $oil_2015 + $oil_2016 + $oil_2017 + $oil_2018 + 
-	$oil_2019 + $oil_2020;
+$oil_2011 = 2500; circa da erst Anfang Dezember 2012 getankt worden ist
+$oil_2012 = 557; Rest von 2011 da insg. 3057l getankt wurden und die HeizSaison schon begonnen hat
+*/
 
 function getLastDayOfMonth($month, $year)
 {
@@ -306,7 +296,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$boiler_hours_average_year = $boiler_hours_year / 
 			$boiler_starts_year;
 
-		$sql_lastfuel = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp <= $lastfueltime ORDER by timestamp DESC LIMIT 1";
+		/*lastfuel*/
+		$sql_totalfuel = "SELECT SUM( oil_liter ) as totaloil FROM oil_fuel ORDER BY fuel_date DESC";
+		$result_totalfuel = mysql_query($sql_totalfuel, $connection);
+		$line_totalfuel = mysql_fetch_array($result_totalfuel);
+		$oil_total = $line_totalfuel["totaloil"];
+
+		$sql_lastfuel = "SELECT vitocontrol.oil_consume FROM vitocontrol JOIN oil_fuel on (vitocontrol.date=oil_fuel.fuel_date) ORDER by oil_fuel.fuel_date DESC, vitocontrol.time ASC LIMIT 1";
 		$result_lastfuel = mysql_query($sql_lastfuel, $connection);
 		$line_lastfuel = mysql_fetch_array($result_lastfuel);
 		$oil_lastfuel = $line_lastfuel["oil_consume"];
@@ -334,7 +330,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
     	echo "<tr>\n";
 		$total_oil_last_fill = $line["oil_consume"] / 1000 - ($oil_lastfuel / 1000);
       	echo "lastfill: $total_oil_last_fill" . " " . $line["oil_consume"] . " " . $oil_lastfuel . " " . $sql_last_fuel;
-		$oil_ges = $oil_ges + $total_oil_last_fill;
+		$oil_total = $oil_total + $total_oil_last_fill;
 		echo "<td>Gesamt:<br>Brennerstarts:" . $line["boiler_starts"] .
 			" <br>Kesselbetriebsstunden: ". 
 			converthours($line["boiler_hours1"]) . 
@@ -342,7 +338,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 			converthours($line["boiler_hours2"]) . ")"*/ 
 			"<br>" .
 			"&Ouml;lverbrauch: " .
-			$oil_ges . "l" .
+			$oil_total . "l" .
 			"<br>&Ouml;lverbrauch seit letzter Tankung: " . 
 			$total_oil_last_fill . "l</td>\n";
       	echo "<td>&Ouml;lverbrauch des Tages: " . 
