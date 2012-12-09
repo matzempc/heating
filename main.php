@@ -329,7 +329,6 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		echo "</tr>\n";
     	echo "<tr>\n";
 		$total_oil_last_fill = $line["oil_consume"] / 1000 - ($oil_lastfuel / 1000);
-      	echo "lastfill: $total_oil_last_fill" . " " . $line["oil_consume"] . " " . $oil_lastfuel . " " . $sql_last_fuel;
 		$oil_total = $oil_total + $total_oil_last_fill;
 		echo "<td>Gesamt:<br>Brennerstarts:" . $line["boiler_starts"] .
 			" <br>Kesselbetriebsstunden: ". 
