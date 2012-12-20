@@ -266,7 +266,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 					$energy[] = max(($boilerhours_max - $boilerhours_min) * getEnergyPerHour(1, $year_start), 0.0001);
 					$energy[] = max($wood_top, 0.0001);
 					$energy[] = max($wood_bottom, 0.0001);
-					$colors = array('brown','black','red','green');
+					$colors = array('green','red','black','brown');
 					$legends = array('Solar','Oel','Holz Oben','Holz Unten');
 				}
 			    /*	
@@ -354,7 +354,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 					$energy[] = max(($boilerhours_max - $boilerhours_min) * getEnergyPerHour(8, $year_start), 0.0001);
 					$energy[] = max($wood_top, 0.0001);
 					$energy[] = max($wood_bottom, 0.0001);
-					$colors = array('brown','black','red','green');
+					$colors = array('green','red','black','brown');
 					$legends = array('Solar','Oel','Holz Oben','Holz Unten');
 				}
 			    /*	
