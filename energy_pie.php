@@ -115,10 +115,10 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 					$energy[] = max($energy_max - $energy_min, 0.0001);
 					$energy[] = max(($boilerhours_max - $boilerhours_min) * getEnergyPerHour($month_start, $year_start) * 1000, 0.0001);
 					if ($energy_max - $energy_min){
-						$colors = array('red','green');
+						$colors = array('green','red');
 						$legends = array('Solar','Oel');
 					} else {
-						$colors = array('green','red');
+						$colors = array('red','green');
 						$legends = array('Oel','Solar');
 					}
 				}
@@ -172,10 +172,10 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 					$energy[] = max($energy_max - $energy_min, 0.0001);
 					$energy[] = max(($boilerhours_max - $boilerhours_min) * getEnergyPerHour($month_start, $year_start) * 1000, 0.0001);
 					if ($energy_max - $energy_min){
-						$colors = array('red','green');
+						$colors = array('green','red');
 						$legends = array('Solar','Oel');
 					} else {
-						$colors = array('green','red');
+						$colors = array('red','green');
 						$legends = array('Oel','Solar');
 					}
 				}
