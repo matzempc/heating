@@ -248,7 +248,7 @@
     echo "</select>";
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
-
+	echo "<hr><a href=\"config.php?lang={$language}   \" target=\"main\">Konfiguration</a>";
     echo "<hr><p><b>Energie Tag</b></p>";
     echo "<form action = \"energy.php\" method=\"get\" target=\"main\">";
     echo "</select><br>";
