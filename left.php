@@ -248,7 +248,9 @@
     echo "</select>";
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
-	echo "<hr><a href=\"config.php?lang={$language}   \" target=\"main\">Konfiguration</a>";
+	echo "<hr><a href=\"config.php\" target=\"main\">Konfiguration</a>";
+	echo "<br><a href=\"config_times.php\" target=\"main\">Konfigation Warmwasser</a>";
+	echo "<br><a href=\"config_warmwater.php\" target=\"main\">Konfiguration Heizzeiten</a>";
     echo "<hr><p><b>Energie Tag</b></p>";
     echo "<form action = \"energy.php\" method=\"get\" target=\"main\">";
     echo "</select><br>";
