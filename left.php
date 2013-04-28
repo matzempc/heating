@@ -249,7 +249,8 @@
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
 	echo "<hr><a href=\"config.php\" target=\"main\">Konfiguration</a>";
-	echo "<br><a href=\"config_times.php\" target=\"main\">Konfigation Heizzeiten</a>";
+	echo "<br><a href=\"config_timesm1.php\" target=\"main\">Konfigation Heizzeiten M1</a>";
+	echo "<br><a href=\"config_timesm2.php\" target=\"main\">Konfigation Heizzeiten M2</a>";
 	echo "<br><a href=\"config_warmwater.php\" target=\"main\">Konfiguration Warmwasser</a>";
     echo "<hr><p><b>Energie Tag</b></p>";
     echo "<form action = \"energy.php\" method=\"get\" target=\"main\">";
