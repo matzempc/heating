@@ -14,7 +14,7 @@ exec("./vclient -h 127.0.0.1:3003 -c 'getTimerWWMo','getTimerWWDi','getTimerWWMi
 if ($retval != 0) echo "VCONTROL BUSY AT THE MOMENT!<br>\n";
 //var_dump($output);
 /*change values if needed*/
-if ($_GET["submitted"]){
+if ($_GET["submitted"] && $_GET["code"] == 4710){
 	echo "Configured<br>\n";
 	$i = 1;
 	if (substr($output[$i], 5, 5) != $_GET["mo11"] ||
@@ -390,6 +390,7 @@ echo "<input type=\"text\" name=\"so42\" id=\"so42\" value=\"". $timer2 . "\" si
 echo "</td></tr></table>";
 
 echo "</td></tr></table><br><br>";
+echo "<input type=\"password\" name=\"code\" size=\"4\"><br>\n";
 echo "<input type=\"hidden\" name=\"submitted\" value=\"1\">\n";
 echo "<input type=\"submit\" value=\"OK\">\n";
 echo "<form>\n";
