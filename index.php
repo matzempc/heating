@@ -4,7 +4,6 @@
 echo "<title>Heizung Mossner</title>";
 ?>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<META HTTP-EQUIV="Refresh" CONTENT="300">
 <link rel="stylesheet" href="heating.css">
 </head>
 
