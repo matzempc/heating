@@ -248,10 +248,17 @@
     echo "</select>";
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
-	echo "<hr><a href=\"config.php\" target=\"main\">Konfiguration</a>";
-	echo "<br><a href=\"config_timesm1.php\" target=\"main\">Konfigation Heizzeiten M1</a>";
-	echo "<br><a href=\"config_timesm2.php\" target=\"main\">Konfigation Heizzeiten M2</a>";
-	echo "<br><a href=\"config_warmwater.php\" target=\"main\">Konfiguration Warmwasser</a>";
+    
+    echo "<hr><p><b>Konfiguration</b></p>";
+    echo "<form action = \"config_times.php\" method=\"get\" target=\"main\">";
+    echo "<select name=\"type\">";
+    echo "<option value=\"0\" selected> Heizkreis M1";
+    echo "<option value=\"1\"> Heizkreis M2";
+    echo "<option value=\"2\"> Warmwasser";
+    echo "</select><br>";
+    echo "<p><input type = \"submit\" value = \"OK\">";
+    echo "</form>";
+    
     echo "<hr><p><b>Energie Tag</b></p>";
     echo "<form action = \"energy.php\" method=\"get\" target=\"main\">";
     echo "</select><br>";
