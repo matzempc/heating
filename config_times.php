@@ -15,6 +15,12 @@ $command_array = array(
 	array("'getTimerWWMo'","'getTimerWWDi'","'getTimerWWMi'","'getTimerWWDo'","'getTimerWWFr'","'getTimerWWSa'","'getTimerWWSo'")
 );
 
+$setcommand_array = array(
+	array("setTimerM1Mo","setTimerM1Di","setTimerM1Mi","setTimerM1Do","setTimerM1Fr","setTimerM1Sa","setTimerM1So"),
+	array("setTimerM2Mo","setTimerM2Di","setTimerM2Mi","setTimerM2Do","setTimerM2Fr","setTimerM2Sa","setTimerM2So"),
+	array("setTimerWWMo","setTimerWWDi","setTimerWWMi","setTimerWWDo","setTimerWWFr","setTimerWWSa","setTimerWWSo")
+);
+
 $times_array = array(
 	array("mo11","mo12","mo21","mo22","mo31","mo32","mo41","mo42"),
 	array("di11","di12","di21","di22","di31","di32","di41","di42"),
@@ -36,32 +42,41 @@ for ($n = 0; $n < 7; $n++){
 exec("./vclient -h 127.0.0.1:3003 -c " . $commands, $output , $retval);
 
 if ($retval != 0) echo "VCONTROL BUSY AT THE MOMENT!<br>\n";
+if (count($output) < count($command_array[$type])*5){ /*5=commandstring+4*times*/
+ echo "VCONTROL answer is too short!<br>\n";
+ exit;
+}
 //var_dump($output);
 /*change values if needed*/
+if (strcmp(trim(substr($output[1], 5, 5)), "merM1") == 0){
+  $i = 2;
+} else {
+  $i = 1;
+}
 if ($_GET["submitted"] && $_GET["code"] == 4710){
 	echo "Configured<br>\n";
-	$i = 1;
 	for ($day = 0; $day < 7; $day++){
 		$changed = FALSE;
 		for ($j = 0; $j < 8; $j++){
 		  if (strcmp(trim(substr($output[$i], 5, 5)), $_GET[$times_array[$day][$j++]]) ||
-		    strcmp(trim(substr($output[$i++], 16, 5)) != $_GET[$times_array[$day][$j]])){
+		    strcmp(trim(substr($output[$i], 16, 5)) , $_GET[$times_array[$day][$j]])){
 		    $changed = TRUE;
-		    break;
 		  }
+		  $i++;
 		}
 		if ($changed == TRUE){
-			for ($j = 0; $j < 8; $j++){
-				$timename = $times_array[$day][$j];
-				$timevalues .= strcmp(trim($_GET[$timename]), "--") ? $_GET[$timename] : "";
-				/*place here functionality to change output[""] to new value*/
-				if ($j < 7){
-					$timevalues .= " ";
-				}
+		  for ($j = 0; $j < 8; $j++){
+			$timename = $times_array[$day][$j];
+			$timevalues .= strcmp(trim($_GET[$timename]), "--") ? $_GET[$timename] : "";
+			/*place here functionality to change output[""] to new value*/
+			if ($j < 7){
+			  $timevalues .= " ";
 			}
-			printf("./vclient -h 127.0.0.1:3003 -c '" . $command_array[$type][$day] . " " . $timevalues . "'");
-			//exec("./vclient -h 127.0.0.1:3003 -c '" . $command_array[$type][$n] . " " . $timevalues . "'", $write_output , $retval);
-			$timevalues = "";
+		  }
+		  trim($timevalues);
+		  printf("./vclient -h 127.0.0.1:3003 -c '" . $setcommand_array[$type][$day] . " " . $timevalues . "'");
+		  //exec("./vclient -h 127.0.0.1:3003 -c '" . $setcommand_array[$type][$day] . " " . $timevalues . "'", $write_output , $retval);
+		  $timevalues = "";
 		}
 		$i++;
 	}
@@ -104,6 +119,7 @@ for ($day = 0; $day < 7; $day++)
 }
 echo "</td></tr></table><br><br>";
 echo "<input type=\"password\" name=\"code\" size=\"4\"><br>\n";
+echo "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
 echo "<input type=\"hidden\" name=\"submitted\" value=\"1\">\n";
 echo "<input type=\"submit\" value=\"OK\">\n";
 echo "<form>\n";
