@@ -1,20 +1,28 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
+<script language="javascript" src="md5.js"></script>
+<script language="javascript">
+<!--
+  function doChallengeResponse() {
+    document.config.code.value = MD5(document.config.code.value);
+  }
+// -->
+</script>
 <link rel="stylesheet" href="heating.css">
 <title>Heizung</title>
   </head>
   <body>
 <div align="center">
 <?php
-
+$code = 4710;
 /*first fetch values*/
 exec("./vclient -h 127.0.0.1:3003 -c 'getBetriebArtM1','getBetriebArtM2','getTempWWsoll','getPumpeStatusZirku','getNeigungM1','getNeigungM2','getNiveauM1','getNiveauM2'", $output , $retval);
 if ($retval != 0) echo "VCONTROL BUSY AT THE MOMENT!<br>\n";
 //var_dump($output);
 
 /*change values if needed*/
-if ($_GET["submitted"]){
+if ($_GET["submitted"] && $_GET["code"] == md5($code)){
 	echo "Configured<br>\n";
 	if ($output[1] != $_GET["betriebszustandm1"]){
 		exec("./vclient -h 127.0.0.1:3003 -c 'setBetriebArtM1 ". $_GET["betriebszustandm1"] ."' ", $write_output , $retval);
@@ -66,7 +74,7 @@ if ($_GET["submitted"]){
 	}
 }
 
-echo "<form>\n";
+echo "<form name=\"config\">\n";
 echo "<table><tr><td>";
 echo "Betriebszustand M1<br>\n";
 echo "</td><td>";
@@ -143,8 +151,9 @@ echo "Niveau M2: ";
 echo "<input type=\"text\" name=\"niveaum2\" id=\"niveaum2\" value=\"". $niveaum2 . "\" size=\"2\"><br>";
 echo "</td><td>";
 echo "</td></tr></table><br><br>";
+echo "<input type=\"password\" name=\"code\" size=\"4\"><br>\n";
 echo "<input type=\"hidden\" name=\"submitted\" value=\"1\">\n";
-echo "<input type=\"submit\" value=\"OK\">\n";
+echo "<input onClick=\"doChallengeResponse();\" type=\"submit\" value=\"OK\">\n";
 echo "<form>\n";
 ?>
 </div>
