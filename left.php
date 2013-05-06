@@ -249,7 +249,7 @@
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
     
-    echo "<hr><p><b>Konfiguration</b></p>";
+    echo "<hr><p><b><a href=\"config.php\" target=\"main\">Konfiguration</a></b></p>";
     echo "<form action = \"config_times.php\" method=\"get\" target=\"main\">";
     echo "<select name=\"type\">";
     echo "<option value=\"0\" selected> Heizkreis M1";
