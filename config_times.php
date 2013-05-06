@@ -1,12 +1,22 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
+<script language="javascript" src="md5.js"></script>
+<script language="javascript">
+<!--
+  function doChallengeResponse() {
+    document.configtimes.code.value = MD5(document.configtimes.code.value);
+  }
+// -->
+</script>
 <link rel="stylesheet" href="heating.css">
 <title>Heizung</title>
   </head>
   <body>
 <div align="center">
 <?php
+$code = 4710;
+
 $days_array = array("Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag");
 
 $command_array = array(
@@ -53,7 +63,7 @@ if (strcmp(trim(substr($output[1], 5, 5)), "merM1") == 0){
 } else {
   $i = 1;
 }
-if ($_GET["submitted"] && $_GET["code"] == 4710){
+if ($_GET["submitted"] && $_GET["code"] == md5($code)){
 	echo "Configured<br>\n";
 	for ($day = 0; $day < 7; $day++){
 		$changed = FALSE;
@@ -74,15 +84,15 @@ if ($_GET["submitted"] && $_GET["code"] == 4710){
 			}
 		  }
 		  trim($timevalues);
-		  printf("./vclient -h 127.0.0.1:3003 -c '" . $setcommand_array[$type][$day] . " " . $timevalues . "'");
-		  //exec("./vclient -h 127.0.0.1:3003 -c '" . $setcommand_array[$type][$day] . " " . $timevalues . "'", $write_output , $retval);
+		  //printf("./vclient -h 127.0.0.1:3003 -c '" . $setcommand_array[$type][$day] . " " . $timevalues . "'");
+		  exec("./vclient -h 127.0.0.1:3003 -c '" . $setcommand_array[$type][$day] . " " . $timevalues . "'", $write_output , $retval);
 		  $timevalues = "";
 		}
 		$i++;
 	}
 }
 
-echo "<form>\n";
+echo "<form name=\"configtimes\">\n";
 echo "<br>";
 echo "<table><tr><td>";
 $i = 1;
@@ -121,7 +131,7 @@ echo "</td></tr></table><br><br>";
 echo "<input type=\"password\" name=\"code\" size=\"4\"><br>\n";
 echo "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
 echo "<input type=\"hidden\" name=\"submitted\" value=\"1\">\n";
-echo "<input type=\"submit\" value=\"OK\">\n";
+echo "<input onClick=\"doChallengeResponse();\" type=\"submit\" value=\"OK\">\n";
 echo "<form>\n";
 
 ?>
