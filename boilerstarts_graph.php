@@ -53,88 +53,86 @@ function convertmins($dec_time){
     return (string)$string;
 }
 
-if ($connection = mysql_connect('localhost','heating','heating')){
-	if(mysql_select_db('heating',$connection)){
-        $day_start = $_GET["daystart"];
-		$month_start = $_GET["monthstart"];
-		$year_start =  $_GET["yearstart"];
-		$day_stop = $_GET["daystop"];
-		$month_stop = $_GET["monthstop"];
-		$year_stop =  $_GET["yearstop"];
-
-        if ($day_start == 0 || $day_stop == 0){
-            $day_start = 1;
-            $day_stop = 31;
-        }
-        if ($month_start == 0 || $month_stop == 0){
-            $month_start = 1;
-            $month_stop = 12;
-        }
-        if ($year_start == 0 || $year_stop == 0){
-            $today = getdate();
-            $year_start = $today['year'];
-            $year_stop = $today['year'];
-        }
-
-		$begin = convertTimestamp($day_start, $month_start, $year_start, 
-				0, 0, 0);
-       	$end   = convertTimestamp($day_stop, $month_stop, $year_stop, 
-				23, 59, 59);
+if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 	
-		$sql = "SELECT `index` , `time` , `boiler_hours1`
-				FROM `vitocontrol`
-				WHERE `timestamp` >= $begin AND `timestamp` <= $end 
-				GROUP BY `boiler_hours1`
-				ORDER BY `boiler_hours1` ASC";
-	    $result = mysql_query($sql);
-	    $num = mysql_num_rows($result);
-	    $texttickint = (integer) ($num % 40);
-	    if ($num > 500){
-	        $factor=(integer) ($num/500);
-	    } else {
-	        $factor = 1;
-	    }
-        if ($myrow = mysql_fetch_array($result)){
-		    $start = $myrow["boiler_hours1"];
-		    while($myrow = mysql_fetch_array($result))
-		    {
-		        if (!$starttime) $starttime = $myrow["time"];
-		        if (!$step) $step = $myrow["index"];
-		        if (!$boilerhours) $boilerhours = $myrow["boiler_hours1"];
-		        if (++$step <= $myrow["index"]){
-		        	$duration = $boilerhours - $start;
-				    $boilerduration[] = $duration * 60;
-				    $start = $boilerhours;
-				    $step = $myrow["index"] + 1;
-				    $starttime = $myrow["time"];
-					$dates[] = $starttime;
-  				}
-           		$boilerhours = $myrow["boiler_hours1"];
-        	}
-        	if ($boilerhours != $start){
-           		$duration = $boilerhours - $start;
-			    $boilerduration[] = $duration *60;
+  $day_start = $_GET["daystart"];
+	$month_start = $_GET["monthstart"];
+	$year_start =  $_GET["yearstart"];
+	$day_stop = $_GET["daystop"];
+	$month_stop = $_GET["monthstop"];
+	$year_stop =  $_GET["yearstop"];
+
+      if ($day_start == 0 || $day_stop == 0){
+          $day_start = 1;
+          $day_stop = 31;
+      }
+      if ($month_start == 0 || $month_stop == 0){
+          $month_start = 1;
+          $month_stop = 12;
+      }
+      if ($year_start == 0 || $year_stop == 0){
+          $today = getdate();
+          $year_start = $today['year'];
+          $year_stop = $today['year'];
+      }
+
+	$begin = convertTimestamp($day_start, $month_start, $year_start, 
+			0, 0, 0);
+     	$end   = convertTimestamp($day_stop, $month_stop, $year_stop, 
+			23, 59, 59);
+
+	$sql = "SELECT `index` , `time` , `boiler_hours1`
+			FROM `vitocontrol`
+			WHERE `timestamp` >= $begin AND `timestamp` <= $end 
+			GROUP BY `boiler_hours1`
+			ORDER BY `boiler_hours1` ASC";
+    $result = $connection->query($sql);
+    $num = $result->num_rows;
+    $texttickint = (integer) ($num % 40);
+    if ($num > 500){
+        $factor=(integer) ($num/500);
+    } else {
+        $factor = 1;
+    }
+      if ($myrow = $result->fetch_array()){
+	    $start = $myrow["boiler_hours1"];
+	    while($myrow = $result->fetch_array())
+	    {
+	        if (!$starttime) $starttime = $myrow["time"];
+	        if (!$step) $step = $myrow["index"];
+	        if (!$boilerhours) $boilerhours = $myrow["boiler_hours1"];
+	        if (++$step <= $myrow["index"]){
+	        	$duration = $boilerhours - $start;
+			    $boilerduration[] = $duration * 60;
+			    $start = $boilerhours;
+			    $step = $myrow["index"] + 1;
+			    $starttime = $myrow["time"];
 				$dates[] = $starttime;
-			}
-	    }
+				}
+         		$boilerhours = $myrow["boiler_hours1"];
+      	}
+      	if ($boilerhours != $start){
+         		$duration = $boilerhours - $start;
+		    $boilerduration[] = $duration *60;
+			$dates[] = $starttime;
+		}
+    }
 
-	    $graph = new Graph(1000,500, "auto");
-	    $graph->SetScale("textlin");
-	    $graph->legend->SetAbsPos(5,5,'right','top');
-	    $graph->SetMargin(40,170,20,150);
-	    $texttickint = 1;
-	    $graph->xaxis->SetTextTickInterval($texttickint);
-	    $graph->xaxis->SetLabelAngle(90);
-	    $graph->xaxis->SetPos('min');
+    $graph = new Graph(1000,500, "auto");
+    $graph->SetScale("textlin");
+    $graph->legend->SetAbsPos(5,5,'right','top');
+    $graph->SetMargin(40,170,20,150);
+    $texttickint = 1;
+    $graph->xaxis->SetTextTickInterval($texttickint);
+    $graph->xaxis->SetLabelAngle(90);
+    $graph->xaxis->SetPos('min');
 
-        $graph->xaxis->SetTickLabels($dates);
-        $p1 = new LinePlot($boilerduration);
-        $p1->SetColor('green');
-        $p1->SetLegend("Brennerlaufzeit");
-		$graph->Add($p1);
-		$graph->Stroke();
-
-	}
+      $graph->xaxis->SetTickLabels($dates);
+      $p1 = new LinePlot($boilerduration);
+      $p1->SetColor('green');
+      $p1->SetLegend("Brennerlaufzeit");
+	$graph->Add($p1);
+	$graph->Stroke();
 }
 ?>
 </div>

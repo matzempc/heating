@@ -117,11 +117,11 @@ function convertmins($dec_time){
     return (string)$string;
 }
 
-if ($connection = mysql_connect('localhost','heating','heating')){
-	if(mysql_select_db('heating',$connection)){
+if ($connection = mysqli_connect('localhost','heating','heating','heating')){
+	
 		$sql = "SELECT *, DATE_FORMAT( `date`, '%d.%m.%Y') AS dateformat FROM deltasole ORDER BY  `deltasole`.`index` DESC LIMIT 1";
-		$result = mysql_query($sql,$connection);
-		$line = mysql_fetch_array($result);
+		$result = $connection->query($sql);
+		$line = $result->fetch_array();
 
 		$day = date("j");
 		$month = date("n");
@@ -132,13 +132,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		$lastfueltime = convertTimestamp(7, 12, 2012, 8, 0, 0);
 
 		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
-		$result_day = mysql_query($sql_day, $connection);
-		$line_day = mysql_fetch_array($result_day);
+		$result_day = $connection->query($sql_day);
+		$line_day = $result_day->fetch_array();
 		$day_max = $line_day["energy"];
 			
 		$sql_day = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
-		$result_day = mysql_query($sql_day, $connection);
-		$line_day = mysql_fetch_array($result_day);
+		$result_day = $connection->query($sql_day);
+		$line_day = $result_day->fetch_array();
 		$day_min = $line_day["energy"];
 		$energy_day = ($day_max - $day_min) / 1000;	
 		$begin = convertTimestamp(1, $month, $year, 0, 0, 0);
@@ -146,13 +146,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 				$month, $year, 23, 59, 59);
 		
 		$sql_month = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
-		$result_month = mysql_query($sql_month, $connection);
-		$line_month = mysql_fetch_array($result_month);
+		$result_month = $connection->query($sql_month);
+		$line_month = $result_month->fetch_array();
 		$month_max = $line_month["energy"];
 			
 		$sql_month = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
-		$result_month = mysql_query($sql_month, $connection);
-		$line_month = mysql_fetch_array($result_month);
+		$result_month = $connection->query($sql_month);
+		$line_month = $result_month->fetch_array();
 		$month_min = $line_month["energy"];
 		$energy_month = ($month_max - $month_min) / 1000;	
 
@@ -160,13 +160,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
        	$end   = convertTimestamp(31, 12, $year, 23, 59, 59);
 
 		$sql_year = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp DESC LIMIT 1";
-		$result_year = mysql_query($sql_year, $connection);
-		$line_year = mysql_fetch_array($result_year);
+		$result_year = $connection->query($sql_year);
+		$line_year = $result_year->fetch_array();
 		$year_max = $line_year["energy"];
 			
 		$sql_year = "SELECT energy FROM deltasole_wmz WHERE timestamp >= $begin AND timestamp <= $end and error=0 ORDER by timestamp ASC LIMIT 1";
-		$result_year = mysql_query($sql_year, $connection);
-		$line_year = mysql_fetch_array($result_year);
+		$result_year = $connection->query($sql_year);
+		$line_year = $result_year->fetch_array();
 		$year_min = $line_year["energy"];
 
 		$energy_year = ($year_max - $year_min) / 1000;	
@@ -209,22 +209,22 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		echo "</table>\n";
 
 		$sql = "SELECT *, DATE_FORMAT( `date`, '%d.%m.%Y') AS dateformat FROM vitocontrol ORDER BY  `vitocontrol`.`index` DESC LIMIT 1";
-		$result = mysql_query($sql,$connection);
-		$line = mysql_fetch_array($result);
+		$result = $connection->query($sql);
+		$line = $result->fetch_array();
 		
 		$begin = convertTimestamp($day, $month, $year, 0, 0, 0);
         	$end   = convertTimestamp($day, $month, $year, 23, 59, 59);
 		
 		$sql_day = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
-		$result_day = mysql_query($sql_day, $connection);
-		$line_day = mysql_fetch_array($result_day);
+		$result_day = $connection->query($sql_day);
+		$line_day = $result_day->fetch_array();
 		$day_oil_max = $line_day["oil_consume"];
 		$day_boiler_starts_max = $line_day["boiler_starts"];
 		$day_boiler_hours_max = $line_day["boiler_hours1"];
 			
 		$sql_day = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp ASC LIMIT 1";
-		$result_day = mysql_query($sql_day, $connection);
-		$line_day = mysql_fetch_array($result_day);
+		$result_day = $connection->query($sql_day);
+		$line_day = $result_day->fetch_array();
 		$day_oil_min = $line_day["oil_consume"];
 		$day_boiler_starts_min = $line_day["boiler_starts"];
 		$day_boiler_hours_min = $line_day["boiler_hours1"];
@@ -247,15 +247,15 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 			$month, $year, 23, 59, 59);
 		
 		$sql_month = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
-		$result_month = mysql_query($sql_month, $connection);
-		$line_month = mysql_fetch_array($result_month);
+		$result_month = $connection->query($sql_month);
+		$line_month = $result_month->fetch_array();
 		$month_oil_max = $line_month["oil_consume"];
 		$month_boiler_starts_max = $line_month["boiler_starts"];
 		$month_boiler_hours_max = $line_month["boiler_hours1"]; 
 			
 		$sql_month = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp ASC LIMIT 1";
-		$result_month = mysql_query($sql_month, $connection);
-		$line_month = mysql_fetch_array($result_month);
+		$result_month = $connection->query($sql_month);
+		$line_month = $result_month->fetch_array();
 		$month_oil_min = $line_month["oil_consume"];
 		$month_boiler_starts_min = $line_month["boiler_starts"];
 		$month_boiler_hours_min = $line_month["boiler_hours1"]; 
@@ -276,16 +276,16 @@ if ($connection = mysql_connect('localhost','heating','heating')){
        	$end   = convertTimestamp(31, 12, $year, 23, 59, 59);
 
 		$sql_year = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp DESC LIMIT 1";
-		$result_year = mysql_query($sql_year, $connection);
-		$line_year = mysql_fetch_array($result_year);
+		$result_year = $connection->query($sql_year);
+		$line_year = $result_year->fetch_array();
 		$oil_year_max = $line_year["oil_consume"];
 		$boiler_starts_year_max = $line_year["boiler_starts"];
 		$boiler_hours_year_max = $line_year["boiler_hours1"]; 
 
 			
 		$sql_year = "SELECT oil_consume,boiler_starts,boiler_hours1 FROM vitocontrol WHERE timestamp >= $begin AND timestamp <= $end ORDER by timestamp ASC LIMIT 1";
-		$result_year = mysql_query($sql_year, $connection);
-		$line_year = mysql_fetch_array($result_year);
+		$result_year = $connection->query($sql_year);
+		$line_year = $result_year->fetch_array();
 		$oil_year_min = $line_year["oil_consume"];
 		$boiler_starts_year_min = $line_year["boiler_starts"];
 		$boiler_hours_year_min = $line_year["boiler_hours1"]; 
@@ -299,13 +299,13 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 
 		/*lastfuel*/
 		$sql_totalfuel = "SELECT SUM( oil_liter ) as totaloil FROM oil_fuel ORDER BY fuel_date DESC";
-		$result_totalfuel = mysql_query($sql_totalfuel, $connection);
-		$line_totalfuel = mysql_fetch_array($result_totalfuel);
+		$result_totalfuel = $connection->query($sql_totalfuel);
+		$line_totalfuel = $result_totalfuel->fetch_array();
 		$oil_total = $line_totalfuel["totaloil"];
 
 		$sql_lastfuel = "SELECT vitocontrol.oil_consume FROM vitocontrol JOIN oil_fuel on (vitocontrol.date=oil_fuel.fuel_date) ORDER by oil_fuel.fuel_date DESC, vitocontrol.time ASC LIMIT 1";
-		$result_lastfuel = mysql_query($sql_lastfuel, $connection);
-		$line_lastfuel = mysql_fetch_array($result_lastfuel);
+		$result_lastfuel = $connection->query($sql_lastfuel);
+		$line_lastfuel = $result_lastfuel->fetch_array();
 		$oil_lastfuel = $line_lastfuel["oil_consume"];
 
 		echo "<p>Heizung Mossner am: " . $line["dateformat"] . 
@@ -385,12 +385,12 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		echo "</table>\n";
 	 	
 		$sql = "SELECT SUM( weight ) as sum_unten FROM `wood` WHERE who LIKE 'Unten'";
-		$result = mysql_query($sql,$connection);
-		$line = mysql_fetch_array($result);
+		$result = $connection->query($sql);
+		$line = $result->fetch_array();
 		$sum_unten = $line["sum_unten"];
 		$sql = "SELECT SUM( weight ) as sum_oben FROM `wood` WHERE who LIKE 'Oben'";
-		$result = mysql_query($sql,$connection);
-		$line = mysql_fetch_array($result);
+		$result = $connection->query($sql);
+		$line = $result->fetch_array();
 		$sum_oben = $line["sum_oben"];
 ;
 		echo "<br>Holz Mossner:<br><br>";
@@ -403,8 +403,8 @@ if ($connection = mysql_connect('localhost','heating','heating')){
       	echo "</td></tr></tbody></table>\n";	
 
 		$sql = "SELECT * FROM `temperatures_rooms` ORDER BY timestamp DESC LIMIT 1";
-		$result = mysql_query($sql,$connection);
-		$line = mysql_fetch_array($result);
+		$result = $connection->query($sql);
+		$line = $result->fetch_array();
 		$buero_temp = $line["buero"] /*+ 0.7*/;
 	
 		echo "<br>Temperatur R&auml;ume am ";
@@ -427,8 +427,7 @@ if ($connection = mysql_connect('localhost','heating','heating')){
 		echo "<td>Badezimmer oben: " . $line["badezimmer_oben"] . "</td>\n";
       	echo "<td>Arbeitszimmer2: " . $line["arbeitszimmer2"] . "</td>\n";
 		echo "</tr></tbody></table>\n";	
-	}
-    }
+  }
 ?>
 </div>
   </body>
