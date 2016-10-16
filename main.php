@@ -405,7 +405,6 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 		$sql = "SELECT * FROM `temperatures_rooms` ORDER BY timestamp DESC LIMIT 1";
 		$result = $connection->query($sql);
 		$line = $result->fetch_array();
-		$buero_temp = $line["buero"] /*+ 0.7*/;
 	
 		echo "<br>Temperatur R&auml;ume am ";
 		echo date("d.m.Y", strtotime($line["timestamp"]));
@@ -415,17 +414,19 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 		echo "<table border=\"1\">\n";
   		echo "<tbody>\n";
     	echo "<tr>\n";
-      	echo "<td>B&uuml;ro: " . $buero_temp . "</td>\n";
-		echo "<td>Arbeitszimmer: " . $line["arbeitszimmer"] . "</td>\n";
+      	echo "<td>Abstellraum EG: " . $line["abstellraum_eg"] . "</td>\n";
+		echo "<td>Arbeitszimmer Matthias: " . $line["arbeitszimmer"] . "</td>\n";
 		echo "<td>Wohnzimmer_oben: " . $line["wohnzimmer_oben"] . "</td>\n";
 		echo "<td>Badezimmer_unten: " . $line["badezimmer_unten"] . "</td>\n";
 		echo "<td>Max Zimmer: " . $line["max_zimmer"] . "</td>\n";
+		echo "<td>Kueche UG: " . $line["kueche_ug"] . "</td>\n";		
        	echo "</tr><tr>\n";
        	echo "<td>Schlafzimmer_unten: " . $line["schlafzimmer_unten"] . "</td>\n";
 		echo "<td>Maja Zimmer: " . $line["maja_zimmer"] . "</td>\n";
 		echo "<td>Wohnzimmer_unten: " . $line["wohnzimmer_unten"] . "</td>\n";
 		echo "<td>Badezimmer oben: " . $line["badezimmer_oben"] . "</td>\n";
-      	echo "<td>Arbeitszimmer2: " . $line["arbeitszimmer2"] . "</td>\n";
+      	echo "<td>Arbeitszimmer Friedrich: " . $line["arbeitszimmer_friedrich"] . "</td>\n";
+		echo "<td>Kueche EG: " . $line["kueche_eg"] . "</td>\n";
 		echo "</tr></tbody></table>\n";	
   }
 ?>
