@@ -318,8 +318,8 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 							$myrow["arbeitszimmer_feuchte"] : "-"; 
 						$i8[] = $myrow["badezimmer_oben_feuchte"] != 0 ?
 							$myrow["badezimmer_oben_feuchte"] : "-";
-						$buero[] = $myrow["buero_feuchte"] != 0 ?
-							$myrow["buero_feuchte"] : "-";
+						$buero[] = $myrow["kueche_ug_feuchte"] != 0 ?
+							$myrow["kueche_ug_feuchte"] : "-";
 						$dates[] = $myrow["timestamp"];
 					}
 					$i++;
@@ -333,7 +333,7 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
  				$p1->SetLegend("Wohnzimmer oben");
 			$p2 = new LinePlot($buero);
  				$p2->SetColor('green'); 
- 				$p2->SetLegend("Buero");
+ 				$p2->SetLegend("Kueche UG");
 			$p3 = new LinePlot($max_zimmer);
  				$p3->SetColor('yellow'); 
  				$p3->SetLegend("Max Zimmer");

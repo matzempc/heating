@@ -349,7 +349,7 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 				if ($myrow=$result->fetch_array()) {
 				do {
 					if (($i % $factor) == 0){
-       					$buero[] = $myrow["buero"] + $buero_offset;
+       					$buero[] = $myrow["kueche_ug"] + $buero_offset;
 						$wz_oben[] = $myrow["wohnzimmer_oben"] > $min_temp 
 							&& $myrow["wohnzimmer_oben"] < $max_temp ?
 							$myrow["wohnzimmer_oben"] : "-"; 
@@ -384,7 +384,7 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
  				$graph->xaxis->SetTickLabels($dates);
  				$p1 = new LinePlot($buero);
  				$p1->SetColor('green'); 
- 				$p1->SetLegend("Buero");
+ 				$p1->SetLegend("Kueche UG");
 			$p2 = new LinePlot($wz_oben);
  				$p2->SetColor('red'); 
  				$p2->SetLegend("Wohnzimmer oben");
