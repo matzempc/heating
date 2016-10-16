@@ -343,13 +343,12 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
  				$graph->Stroke();
 			break;
 		case 7:
-			$buero_offset = 0 /*0.7*/;
 		    $min_temp = 10;
 			$max_temp = 40;	
 				if ($myrow=$result->fetch_array()) {
 				do {
 					if (($i % $factor) == 0){
-       					$buero[] = $myrow["kueche_ug"] + $buero_offset;
+       					$buero[] = $myrow["kueche_ug"];
 						$wz_oben[] = $myrow["wohnzimmer_oben"] > $min_temp 
 							&& $myrow["wohnzimmer_oben"] < $max_temp ?
 							$myrow["wohnzimmer_oben"] : "-"; 
@@ -374,6 +373,9 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 						$arbeitszimmer[] = $myrow["arbeitszimmer"] > $min_temp
 							&& $myrow["arbeitszimmer"] < $max_temp ?
 							$myrow["arbeitszimmer"] : "-";
+						$abstellraum_eg[] = $myrow["abstellraum_eg"] > $min_temp
+							&& $myrow["abstellraum_eg"] < $max_temp ?
+							$myrow["abstellraum_eg"] : "-";
 						$dates[] = $myrow["timestamp"];
 					}
 					$i++;
@@ -409,7 +411,9 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 			$p9 = new LinePlot($wz_unten);
  				$p9->SetColor('slategray3'); 
  				$p9->SetLegend("Wohnzimmer unten");
-
+			$p10 = new LinePlot($abstellraum_eg);
+ 				$p9->SetColor('cyan'); 
+ 				$p9->SetLegend("Abstellraum EG");
  				$graph->Add($p1);
 			$graph->Add($p2);
 			$graph->Add($p3);

@@ -318,8 +318,10 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 							$myrow["arbeitszimmer_feuchte"] : "-"; 
 						$i8[] = $myrow["badezimmer_oben_feuchte"] != 0 ?
 							$myrow["badezimmer_oben_feuchte"] : "-";
-						$buero[] = $myrow["kueche_ug_feuchte"] != 0 ?
+						$kueche_ug[] = $myrow["kueche_ug_feuchte"] != 0 ?
 							$myrow["kueche_ug_feuchte"] : "-";
+						$abstellraum_eg[] = $myrow["abstellraum_eg_feuchte"] != 0 ?
+							$myrow["abstellraum_eg_feuchte"] : "-";
 						$dates[] = $myrow["timestamp"];
 					}
 					$i++;
@@ -331,7 +333,7 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 			$p1 = new LinePlot($wz_oben);
  				$p1->SetColor('red'); 
  				$p1->SetLegend("Wohnzimmer oben");
-			$p2 = new LinePlot($buero);
+			$p2 = new LinePlot($kueche_ug);
  				$p2->SetColor('green'); 
  				$p2->SetLegend("Kueche UG");
 			$p3 = new LinePlot($max_zimmer);
@@ -355,7 +357,9 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 			$p9 = new LinePlot($wz_unten);
  				$p9->SetColor('slategray3'); 
  				$p9->SetLegend("Wohnzimmer unten");
-
+			$p10 = new LinePlot($abstellraum_eg);
+ 				$p9->SetColor('cyan'); 
+ 				$p9->SetLegend("Abstellraum EG");
  				$graph->Add($p1);
 			$graph->Add($p2);
 			$graph->Add($p3);
