@@ -412,8 +412,8 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
  				$p9->SetColor('slategray3'); 
  				$p9->SetLegend("Wohnzimmer unten");
 			$p10 = new LinePlot($abstellraum_eg);
- 				$p9->SetColor('cyan'); 
- 				$p9->SetLegend("Abstellraum EG");
+ 				$p10->SetColor('cyan'); 
+ 				$p10->SetLegend("Abstellraum EG");
  				$graph->Add($p1);
 			$graph->Add($p2);
 			$graph->Add($p3);
@@ -423,6 +423,7 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 			$graph->Add($p7);
 			$graph->Add($p8);
 			$graph->Add($p9);
+			$graph->Add($p10);
  				$graph->Stroke();
 		case 8:
 		    $min_temp = 5;
