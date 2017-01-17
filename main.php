@@ -303,10 +303,11 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 		$line_totalfuel = $result_totalfuel->fetch_array();
 		$oil_total = $line_totalfuel["totaloil"];
 
-		$sql_lastfuel = "SELECT vitocontrol.oil_consume FROM vitocontrol JOIN oil_fuel on (vitocontrol.date=oil_fuel.fuel_date) ORDER by oil_fuel.fuel_date DESC, vitocontrol.time ASC LIMIT 1";
+		$sql_lastfuel = "SELECT vitocontrol.oil_consume,oil_fuel.fuel_date FROM vitocontrol JOIN oil_fuel on (vitocontrol.date=oil_fuel.fuel_date) ORDER by oil_fuel.fuel_date DESC, vitocontrol.time ASC LIMIT 1";
 		$result_lastfuel = $connection->query($sql_lastfuel);
 		$line_lastfuel = $result_lastfuel->fetch_array();
 		$oil_lastfuel = $line_lastfuel["oil_consume"];
+		$date_oil_last_fill = $line_lastfuel["fuel_date"];
 
 		echo "<p>Heizung Mossner am: " . $line["dateformat"] . 
 			" um " . $line["time"] . "</p>";
@@ -340,7 +341,7 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 			"&Ouml;lverbrauch: " .
 			$oil_total . "l" .
 			"<br>&Ouml;lverbrauch seit letzter Tankung: " . 
-			$total_oil_last_fill . "l</td>\n";
+			$total_oil_last_fill . "l<br>am: ".  $date_oil_last_fill ."</td>\n";
       	echo "<td>&Ouml;lverbrauch des Tages: " . 
 			$oil_day . "l<br>" . 
 			"&Ouml;lverbrauch des Monats: " . 
