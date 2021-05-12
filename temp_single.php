@@ -96,9 +96,10 @@ if ($connection = mysqli_connect('localhost','heating','heating','heating')){
 		$factor = 1;
 	}
 
- 		$graph = new Graph(1000,500, "auto");
+ 		$graph = new Graph(1200,500, "auto");
  		$graph->SetScale("textlin");
-	$graph->legend->SetAbsPos(5,5,'right','top');
+		$graph->legend->SetLayout(LEGEND_VERT);
+	$graph->legend->SetAbsPos(1000,5,'left','bottom');
 	$graph->SetMargin(40,220,20,150);
  		$texttickint = 20;
  		$graph->xaxis->SetTextTickInterval($texttickint);

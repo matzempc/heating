@@ -20,11 +20,9 @@
     echo "<option value=\"1\" selected> Warmwasser";
     echo "<option value=\"2\"> Puffer";
 	echo "<option value=\"3\"> Kollektor";
-	echo "<option value=\"4\"> Oelkessel";
 	echo "<option value=\"5\"> Heizkreise";
 	echo "<option value=\"6\"> Hauptheizkreis";
 	echo "<option value=\"7\"> Raeume";
-	echo "<option value=\"8\"> Heizkoerper";
     echo "</select><br>";
     echo "<select name=\"daystart\">";
 
@@ -113,54 +111,11 @@
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
 
-/*
-	echo "<hr><p><b>Monat</b></p>";
-    echo "<form action = \"temp.php\" method=\"get\" target=\"main\">";
-	echo "<select name=\"type\">";
-    echo "<option value=\"1\" selected> Warmwasser";
-    echo "<option value=\"2\"> Puffer";
-	echo "<option value=\"3\"> Kollektor";
-	echo "<option value=\"4\"> Oelkessel";
-	echo "<option value=\"5\"> Heizkreis";
-
-    echo "</select><br>";
-    echo "<select name=\"monthstart\">";
-    for($i=1; $i<=12; $i++)
-    {
-        if($i == $today['mon'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>.";
-    echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=$year; $i++)
-    {
-        if($i == $today['year'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>";
-	echo "<input type=\"hidden\" name=\"interval\" value=\"2\">";
-    echo "<p><input type = \"submit\" value = \"OK\">";
-    echo "</form>";
-*/
 
 	echo "<hr><p><b>Relais</b></p>";
     echo "<form action = \"relais.php\" method=\"get\" target=\"main\">";
 	echo "<select name=\"type\">";
     echo "<option value=\"1\" selected> Solar";
-    echo "<option value=\"2\"> Oelheizung";
-
     echo "</select><br>";
     echo "<select name=\"daystart\">";
 
@@ -248,17 +203,7 @@
     echo "</select>";
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
-    
-    echo "<hr><p><b><a href=\"config.php\" target=\"main\">Konfiguration</a></b></p>";
-    echo "<form action = \"config_times.php\" method=\"get\" target=\"main\">";
-    echo "<select name=\"type\">";
-    echo "<option value=\"0\" selected> Heizkreis M1";
-    echo "<option value=\"1\"> Heizkreis M2";
-    echo "<option value=\"2\"> Warmwasser";
-    echo "</select><br>";
-    echo "<p><input type = \"submit\" value = \"OK\">";
-    echo "</form>";
-    
+
     echo "<hr><p><b>Energie Tag</b></p>";
     echo "<form action = \"energy.php\" method=\"get\" target=\"main\">";
     echo "</select><br>";
@@ -377,183 +322,6 @@
 	echo "<input type=\"hidden\" name=\"interval\" value=\"4\">";
     echo "<p><input type = \"submit\" value = \"OK\">";
     echo "</form>";
-
-
-	echo "<hr><p><b>Kesselstarts Tag</b></p>";
-    echo "<form action = \"boilerstarts.php\" method=\"get\" target=\"main\">";
-    echo "<select name=\"daystart\">";
-
-    for($i=1; $i<=31; $i++)
-    {
-        if($i == $today['mday'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>.";
-    echo "<select name=\"monthstart\">";
-    for($i=1; $i<=12; $i++)
-    {
-        if($i == $today['mon'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>.";
-    echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=$year; $i++)
-    {
-        if($i == $today['year'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-	echo "</select><br>";
-    echo "<select name=\"daystop\">";
-
-    for($i=1; $i<=31; $i++)
-    {
-       if($i == $today['mday'])
-       {
-           echo "<option value=\"$i\" selected> $i";
-       }
-       else
-       {
-           echo "<option value=\"$i\"> $i";
-       }
-    }
-
-    echo "</select>.";
-    echo "<select name=\"monthstop\">";
-
-    for($i=1; $i<=12; $i++)
-    {
-        if($i == $today['mon'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-
-    echo "</select>.";
-    echo "<select name=\"yearstop\">";
-
-    for($i=2009; $i<=$year; $i++)
-    {
-        if($i == $today['year'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select><br>";
-    echo "<p><input type = \"submit\" value = \"OK\">";
-    echo "</form>";
-
-    echo "<hr><p><b>Warmwasser Oel Monat</b></p>";
-    echo "<form action = \"warmwater.php\" method=\"get\" target=\"main\">";
-    echo "<select name=\"monthstart\">";
-    for($i=1; $i<=12; $i++)
-    {
-        if($i == $today['mon'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>.";
-    echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=$year; $i++)
-    {
-        if($i == $today['year'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>";
-	echo "<input type=\"hidden\" name=\"interval\" value=\"2\">";
-    echo "<p><input type = \"submit\" value = \"OK\">";
-    echo "</form>";
-
-
-/*
-    echo "<hr><br>Photovoltaik:<br><p><b>Energie Monat</b></p>";
-    echo "<form action = \"energy_photo.php\" method=\"get\" target=\"main\">";
-    echo "<select name=\"monthstart\">";
-    for($i=1; $i<=12; $i++)
-    {
-        if($i == $today['mon'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>.";
-    echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=$year; $i++)
-    {
-        if($i == $today['year'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>";
-	echo "<input type=\"hidden\" name=\"interval\" value=\"2\">";
-    echo "<p><input type = \"submit\" value = \"OK\">";
-    echo "</form>";
-*/
-/*
-    echo "<hr><p><b>Energie Jahr</b></p>";
-    echo "<form action = \"energy_photo.php\" method=\"get\" target=\"main\">";
-    echo "<select name=\"yearstart\">";
-    for($i=2009; $i<=$year; $i++)
-    {
-        if($i == $today['year'])
-        {
-            echo "<option value=\"$i\" selected> $i";
-        }
-        else
-        {
-            echo "<option value=\"$i\"> $i";
-        }
-    }
-    echo "</select>";
-	echo "<input type=\"hidden\" name=\"interval\" value=\"3\">";
-    echo "<p><input type = \"submit\" value = \"OK\">";
-    echo "</form>";
-*/
 ?>
 
 </body>
